@@ -1,0 +1,29 @@
+name: Spring Boot Build Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: eclipse-temurin:17-jdk-jammy
+
+    steps:
+      - name: Check source
+        uses: actions/checkout@v4
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Cấp quyền thực thi cho Maven wrapper
+        run: chmod +x mvnw
+
+      - name: run test with maven
+        run: ./mvnw clean test
