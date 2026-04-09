@@ -22,7 +22,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Cấp quyền thực thi cho Maven wrapper
+      - name: provide permission for maven
         run: chmod +x mvnw
 
       - name: run test with maven
